@@ -14,4 +14,4 @@ Monitoring programmes and approaches that can provide information on both site- 
 
 WGMPAS collaborates with various ICES groups, namely the Working Group on Biodiversity Science ([WGBIODIV](https://www.ices.dk/community/groups/Pages/wgbiodiv.aspx)), Working Group on Marine Habitat Mapping ([WGMHM](https://www.ices.dk/community/groups/Pages/WGMHM.aspx)), Working Group on Deep-water Ecology ([WGDEC](https://www.ices.dk/community/groups/pages/wgdec.aspx)), Working Group on Fisheries Benthic Impact and Trade-offs ([WGFBIT](https://www.ices.dk/community/groups/Pages/WGFBIT.aspx)), the Working Group on Offshore Renewable Energy ([WGORE](https://www.ices.dk/community/groups/Pages/WGORE.aspx)), and the Working Group on the value of Coastal Habitats for Exploited Species ([WGVHES](https://www.ices.dk/community/groups/Pages/WGVHES.aspx)).
 
-#LOOK I MADE A CHANGE
+#LOOK I MADE A CHANGE!
