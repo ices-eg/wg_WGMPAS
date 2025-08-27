@@ -4,17 +4,16 @@
 library(tidyverse)
 library(rnaturalearth)
 library(sf)
+library(ggnewscale)
 
 #projections ------
 latlong <- "+proj=longlat +datum=NAD83 +no_defs +ellps=GRS80 +towgs84=0,0,0"
-utm <- "+proj=utm +zone=20 +datum=NAD83 +units=km +no_defs +ellps=GRS80 +towgs84=0,0,0"
 
 ##load in the who are we data (copied from online)
 wgmpas_df <- read.csv("data/who_are_we.csv")
 
 wgmpas_countries <- wgmpas_df%>%filter(Country != "International",
                                        Country != "Australia")%>%pull(Country)%>%unique()
-
 # Load world map data
 world <- ne_countries(scale = "medium", returnclass = "sf")%>%st_transform(latlong)
 
@@ -29,64 +28,53 @@ world <- world %>%
 
 # Mark countries in wgmpas_countries as TRUE in a new column 'highlight'
 world <- world %>%
-  mutate(highlight = country_match %in% wgmpas_countries)
+  mutate(highlight = country_match %in% wgmpas_countries,
+         highlight = ifelse(country_match == "United States",FALSE,highlight)) #the US doesn't really participate. 
 
-## ICES Strata
 
-ices_strat <- read_sf("data/shapefile/")%>%st_transform(latlong)
-
-global_mpas <- read_sf("data/WDPA_WDOECM_Nov2024_Public_all_shp/")
-
+#set up the plot
 plot_lims <- st_bbox(world) 
 plot_lims[1:4] <- c(-100,30,40,75)
+
+plot_lims2 <- plot_lims
+plot_lims2[2] <- 34
 
 # Plot the map
 p1 <- ggplot() +
   geom_sf(data = world,aes(fill = highlight), color = "black", size = 0.1) +
-  scale_fill_manual(values = c("TRUE" = "cornflowerblue", "FALSE" = "gray90"), name = "Highlight") +
+  scale_fill_manual(values = c("TRUE" = "cornflowerblue", "FALSE" = "gray90"), name = "Highlight") 
   coord_sf(xlim = plot_lims[c(1,3)], ylim = plot_lims[c(2,4)])+
   theme_minimal() +
   labs(title = "Working Group on Marine Protected Areas and Other Spatial Conservation Measures",
        subtitle = "WGMPAs") +
   theme(legend.position = "none")
 
-#WDPA data files
+#WDPA data files (these are curated to only MARINE %in% c(1,2)) in wdpa_process.R
 
-focal_names <- NULL
-wdpa_pointfiles <- c("data/WDPA_WDOECM_Nov2024_Public_all_shp/mpa_dump_1/WDPA_WDOECM_Nov2024_Public_all_shp_0/WDPA_WDOECM_Nov2024_Public_all_shp-points.shp",
-                     "data/WDPA_WDOECM_Nov2024_Public_all_shp/mpa_dump_2/WDPA_WDOECM_Nov2024_Public_all_shp-points.shp",
-                     "data/WDPA_WDOECM_Nov2024_Public_all_shp/mpa_dump_3/WDPA_WDOECM_Nov2024_Public_all_shp_2/WDPA_WDOECM_Nov2024_Public_all_shp-points.shp")
+wgmpas_wdpa_mpa <- st_read("data/shapefile/wgmpas_wdpa_curated.shp", quiet = TRUE)%>%
+               st_transform(latlong)%>%
+               mutate(type="MPA")
 
-mpa_ids <- NULL
-for(i in wdpa_pointfiles){
-  
-  mpa_ids <- rbind(mpa_ids,
-                 read_sf(i)%>%
-                 filter(MARINE !=0)%>%
-                 st_transform(latlong)%>%
-                 st_intersection(.,plot_lims%>%st_as_sfc())%>%
-                 mutate(file_group = which(i == wdpa_pointfiles))%>%
-                 data.frame()%>%
-                 dplyr::select(WDPAID,NAME,file_group))
-}
+wgmpas_wdpa_oecm <- st_read("data/shapefile/wgmpas_wdpa_curated_oecm.shp", quiet = TRUE)%>%
+                    st_transform(latlong)%>%
+                    mutate(type="OECM")
 
-wdpa_shapefiles <- gsub("-points.shp","-polygons.shp",wdpa_pointfiles)
-
-mpa_polys <- NULL
-
-for(i in wdpa_shapefiles){
-  
-   mpa_polys <- rbind(mpa_polys,
-                      #read_sf(i)%>%
-                      tt%>%
-                      filter(WDPAID %in% mpa_ids)%>%
-                      st_transform(latlong)%>%
-                      dplyr::select(WDPAID,NAME,geometry))
-  
-  }
+wgmpas_wdpa <- rbind(wgmpas_wdpa_mpa%>%dplyr::select("geometry","type"), wgmpas_wdpa_oecm%>%dplyr::select("geometry","type"))
 
 
+p1 <- ggplot() +
+  geom_sf(data = world,aes(fill = highlight), color = "black", size = 0.1,show.legend = FALSE) +
+  scale_fill_manual(values = c("TRUE" = "darkslateblue", "FALSE" = "gray90"), name = "Highlight") +
+  new_scale_fill()+
+  geom_sf(data=wgmpas_wdpa,aes(fill=type)) +
+  scale_fill_manual(values = c("MPA" = "cornflowerblue","OECM" = "#69b3a2"))+
+  coord_sf(xlim = plot_lims2[c(1,3)], ylim = plot_lims2[c(2,4)])+
+  theme_bw() +
+  labs(title = "Working Group on Marine Protected Areas and Other Spatial Conservation Measures",
+       subtitle = "WGMPAs")+
+  theme(legend.position = "inside",
+        legend.position.inside = c(0.08,0.15),
+        legend.background = element_blank(),
+        legend.title = element_blank())
 
-mpa_polys_1 <- read_sf(wdpa_shapefiles[1])%>%st_transform(latlong)
-mpa_polys_2 <- read_sf(wdpa_shapefiles[2])%>%st_transform(latlong)
-mpa_polys_3 <- read_sf(wdpa_shapefiles[3])%>%st_transform(latlong)
+ggsave("output/wgmpas_plot.png",p1,height=6,width=8,units="in",dpi=300)
