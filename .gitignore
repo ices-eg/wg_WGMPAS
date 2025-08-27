@@ -37,3 +37,9 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+# WDPA outputs
+data/shapefile/*wgmpas_wdpa*
+data/WDOECM_Aug2025_Public_shp/*
+data/WDPA_Aug2025_Public_shp/*
+data/WDPA_WDOECM_Nov2024_Public_all_shp/*
