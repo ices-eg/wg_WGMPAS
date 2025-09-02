@@ -6,7 +6,7 @@ __Figure 1__ Overview of WGMPAs members and country representation (in dark blue
 
 __Terms of Reference__
 
-WGMPAs develops methods on how to assess MPA benefits to the ecosystem, how to access trade-offs between MPAs and other marine space users, and how to design MPA networks in response to climate change.
+([WGMPAs](https://www.ices.dk/community/groups/Pages/wgmpas.aspx)) develops methods on how to assess MPA benefits to the ecosystem, how to access trade-offs between MPAs and other marine space users, and how to design MPA networks in response to climate change.
 
 Recent legislative drivers have set area-based conservation targets as a tool to preserve marine biodiversity. The Convention on Biological Diversity (CBD) Aichi Target 11 set a preliminary target of 10% of coastal and marine areas, with an expansion to 30% by 2030 now under discussion. Area-based conservation targets for spatially explicit marine conservation areas (i.e. MPAs) are popular among policymakers as they are understandable and progress can easily be tracked.
 
