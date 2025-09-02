@@ -5,12 +5,16 @@ library(tidyverse)
 library(rnaturalearth)
 library(sf)
 library(ggnewscale)
+library(rvest)
 
 #projections ------
 latlong <- "+proj=longlat +datum=NAD83 +no_defs +ellps=GRS80 +towgs84=0,0,0"
 
-##load in the who are we data (copied from online)
-wgmpas_df <- read.csv("data/who_are_we.csv")
+##load in the who are we data from the ICES WGMPAs website
+wgmpas_url <- "https://www.ices.dk/community/groups/Pages/Members.aspx?Acronym=WGMPAS"
+webpage <- read_html(wgmpas_url)
+table_data <- html_table(webpage, fill = TRUE)[[1]]%>%
+  data.frame()
 
 wgmpas_countries <- wgmpas_df%>%filter(Country != "International",
                                        Country != "Australia")%>%pull(Country)%>%unique()

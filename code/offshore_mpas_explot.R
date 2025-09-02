@@ -131,10 +131,10 @@ wgmpas_wdpa_mpa <- st_read("data/shapefile/wgmpas_wdpa_curated.shp", quiet = TRU
 # # Clean up parallel processing
 # plan(sequential)
 # 
-# write_sf(offshore_results,dsn="data/shapefile/wgmpas_wdpa_offshore.shp")
+# write_sf(offshore_results,dsn="data/shapefile/wgmpas_offshore.shp")
 # save(offshore_results,file="data/shapefile/offshore_results.RData")
 
-wgmpas_wdpa_offshore <- read_sf("data/shapefile/wgmpas_wdpa_offshore.shp")
+wgmpas_wdpa_offshore <- read_sf("data/shapefile/wgmpas_offshore.shp")
 
 plot_bounds <- st_union(st_as_sfc(eu_bbox),wgmpas_wdpa_offshore%>%st_bbox()%>%st_as_sfc())%>%st_bbox()
 
