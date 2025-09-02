@@ -1,12 +1,13 @@
-# Working Group on Marine Protected Areas and other Spatial Conservation Measures (WGMPAS)
-
-# WGMPAs develops methods on how to assess MPA benefits to the ecosystem, how to access trade-offs between MPAs and other marine space users, and how to design MPA networks in response to climate change.
+# Working Group on Marine Protected Areas and other Spatial Conservation Measures (wgMPAS)
 
 ![ ](/output/wgmpas_plot.png)
 
-Overview of WGMPA members and country representation (in dark blue). MPAs and OECMs noted on map from the World Protected Area Database (WPDA). 
+__Figure 1__ Overview of WGMPA members and country representation (in dark blue). MPAs and OECMs noted on map from the World Protected Area Database (WPDA). 
 
-_Terms of Reference_
+__Terms of Reference__
+
+WGMPAs develops methods on how to assess MPA benefits to the ecosystem, how to access trade-offs between MPAs and other marine space users, and how to design MPA networks in response to climate change.
+
 Recent legislative drivers have set area-based conservation targets as a tool to preserve marine biodiversity. The Convention on Biological Diversity (CBD) Aichi Target 11 set a preliminary target of 10% of coastal and marine areas, with an expansion to 30% by 2030 now under discussion. Area-based conservation targets for spatially explicit marine conservation areas (i.e. MPAs) are popular among policymakers as they are understandable and progress can easily be tracked.
 
 However, science that can provide the evidence-basis that demonstrates that such management measures achieve their stated biodiversity objectives is required. There is a need to synthesize all the pathways through which MPAs can indirectly support increased ecosystem resilience and ecosystem function (e.g., biomass exportation), from expert knowledge and literature reviews. One focus of WGMPAS will be developing methods to evaluate how the contribution of MPAs to ecosystems is measured using both structural and functional indicators of ecosystem state through case studies.
