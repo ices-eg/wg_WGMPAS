@@ -1,6 +1,6 @@
 # Working Group on Marine Protected Areas and other Spatial Conservation Measures (wgMPAS)
 
-![ ](/output/wgmpas_plot.png)
+![ ](/output/readme_plot.png)
 
 __Figure 1__ Overview of WGMPA members and country representation (in dark blue). MPAs and OECMs noted on map from the World Protected Area Database (WPDA). 
 

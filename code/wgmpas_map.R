@@ -7,6 +7,8 @@ library(sf)
 library(ggnewscale)
 library(rvest)
 
+source("https://raw.githubusercontent.com/dfo-mar-mpas/MCRG_functions/refs/heads/main/code/trim_img_ws.R")
+
 #projections ------
 latlong <- "+proj=longlat +datum=NAD83 +no_defs +ellps=GRS80 +towgs84=0,0,0"
 
@@ -16,7 +18,7 @@ webpage <- read_html(wgmpas_url)
 table_data <- html_table(webpage, fill = TRUE)[[1]]%>%
   data.frame()
 
-wgmpas_countries <- wgmpas_df%>%filter(Country != "International",
+wgmpas_countries <- table_data%>%filter(Country != "International",
                                        Country != "Australia")%>%pull(Country)%>%unique()
 # Load world map data
 world <- ne_countries(scale = "medium", returnclass = "sf")%>%st_transform(latlong)
@@ -82,3 +84,21 @@ p1 <- ggplot() +
         legend.title = element_blank())
 
 ggsave("output/wgmpas_plot.png",p1,height=6,width=8,units="in",dpi=300)
+
+#readme plot
+
+readme_plot <- ggplot() +
+              geom_sf(data = world,aes(fill = highlight), color = "black", size = 0.1,show.legend = FALSE) +
+              scale_fill_manual(values = c("TRUE" = "darkslateblue", "FALSE" = "gray90"), name = "Highlight") +
+              new_scale_fill()+
+              geom_sf(data=wgmpas_wdpa,aes(fill=type)) +
+              scale_fill_manual(values = c("MPA" = "cornflowerblue","OECM" = "#69b3a2"))+
+              coord_sf(xlim = plot_lims2[c(1,3)], ylim = plot_lims2[c(2,4)])+
+              theme_bw() +
+              theme(legend.position = "inside",
+                    legend.position.inside = c(0.08,0.15),
+                    legend.background = element_blank(),
+                    legend.title = element_blank())
+
+ggsave("output/readme_plot.png",readme_plot,height=6,width=8,units="in",dpi=300)
+trim_img_ws("output/readme_plot.png") #get rid of any whitespace, which helps to make the readme look clean. 
